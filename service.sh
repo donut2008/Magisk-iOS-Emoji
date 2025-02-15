@@ -156,10 +156,10 @@ else
     log "INFO: GMS font updater not found: $GMS_FONT_UPDATER"
 fi
 
-# Clean up leftover font files
+# Clean up leftover emoji font files
 log "INFO: Cleaning up leftover font files..."
 if [ -d "$DATA_FONTS_DIR" ]; then
-    if ! rm -rf "$DATA_FONTS_DIR"; then
+    if ! find "$DATA_FONTS_DIR" -type f -name "*Emoji*"; then
         log "ERROR: Failed to clean up directory: $DATA_FONTS_DIR"
     else
         log "INFO: Successfully cleaned up directory: $DATA_FONTS_DIR"
@@ -168,16 +168,16 @@ else
     log "INFO: Directory not found: $DATA_FONTS_DIR"
 fi
 
-# Commented out the deletion of .ttf files in the opentype directory (still need testing)
-# if [ -d "$GMS_FONTS_DIR" ]; then
-#     if ! rm -rf "$GMS_FONTS_DIR"/*ttf; then
-#         log "ERROR: Failed to clean up ttf files in directory: $GMS_FONTS_DIR"
-#     else
-#         log "INFO: Successfully cleaned up ttf files in directory: $GMS_FONTS_DIR"
-#     fi
-# else
-#     log "INFO: Directory not found: $GMS_FONTS_DIR"
-# fi
+# Delete emoji font files in opentype directory
+if [ -d "$GMS_FONTS_DIR" ]; then
+    if ! rm -rf "$GMS_FONTS_DIR"/*ttf; then
+        log "ERROR: Failed to clean up ttf files in directory: $GMS_FONTS_DIR"
+    else
+        log "INFO: Successfully cleaned up ttf files in directory: $GMS_FONTS_DIR"
+    fi
+else
+    log "INFO: Directory not found: $GMS_FONTS_DIR"
+fi
 
 log "INFO: Service completed."
 log "================================================"
